@@ -1,0 +1,16 @@
+{
+  "name": "distance-check",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev":"chokidar index.js -c 'node index.js'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "playwright": "^1.22.2"
+  }
+}
