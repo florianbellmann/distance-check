@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev":"chokidar index.js -c 'node index.js'"
+    "dev": "chokidar index.js -c 'node index.js'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.1",
+    "pg": "^8.7.3",
     "playwright": "^1.22.2"
   }
 }

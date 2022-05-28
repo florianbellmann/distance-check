@@ -1,12 +1,13 @@
 const dotenv = require("dotenv");
 const playwright = require("playwright");
 
+
 dotenv.config();
 
 (async () => {
   console.log("Initializing headless browser");
   const browser = await playwright.chromium.launch({
-    // headless: false,
+    headless: false,
     // devtools: true,
   });
 
@@ -28,16 +29,45 @@ dotenv.config();
   let resultInfo = await (
     await page.$("#section-directions-trip-0")
   ).innerText();
-  resultInfo = resultInfo.split("\n").pop();
+  resultInfo = resultInfo.split("\n")
 
-  console.log("resultInfo", resultInfo);
+  // console.debug("resultInfo", resultInfo);
+
+  console.log("Writing to database");
+  await writeToDB(resultInfo);
 
   console.log("Closing headless browser");
   await browser.close();
 })();
 
+
+async function writeToDB(entry) {
+  try {
+
+    const date = new Date()
+    const queryParams = [
+      process.env.FROM,
+      process.env.TO,
+      entry[0],
+      entry[1],
+      entry[2] + "\n" + entry[3],
+      date.toLocaleString("de-DE", { timeZone: "Europe/Berlin" })
+    ]
+    const insertQueryString = `INSERT INTO travel_time VALUES ('${queryParams[0]}','${queryParams[1]}','${queryParams[2]}','${queryParams[3]}','${queryParams[4]}','${queryParams[5]}')`
+
+    const { Client } = require('pg')
+    const pgClient = new Client()
+    await pgClient.connect()
+    await pgClient.query(insertQueryString)
+
+    await pgClient.end()
+  } catch (e) {
+    console.error("Failed to write to database!", e)
+  }
+}
+
 function delay(time) {
-  return new Promise(function (resolve) {
+  return new Promise(function(resolve) {
     setTimeout(resolve, time);
   });
 }
