@@ -12,7 +12,7 @@ dotenv.config();
 
     console.log(destination);
     await checkDistance(destination);
-    console.log("Delaying request for 15 seconds...")
+    console.log("Delaying request for 15 seconds...");
     await delay(15000);
   }
 
@@ -58,9 +58,8 @@ async function writeToDB(entry) {
       entry[0],
       entry[1],
       entry[2] + "\n" + entry[3],
-      date.toLocaleString("de-DE", { timeZone: "Europe/Berlin" }),
     ];
-    const insertQueryString = `INSERT INTO travel_time VALUES ('${queryParams[0]}','${queryParams[1]}','${queryParams[2]}','${queryParams[3]}','${queryParams[4]}','${queryParams[5]}')`;
+    const insertQueryString = `INSERT INTO distance_check(departure,destination,duration,distance,comment) VALUES ('${queryParams[0]}','${queryParams[1]}','${queryParams[2]}','${queryParams[3]}','${queryParams[4]}')`;
 
     const { Client } = require("pg");
     const pgClient = new Client();
