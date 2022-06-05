@@ -46,18 +46,18 @@ async function checkDistance(destination) {
   console.log("Closing headless browser for", destination);
   await browser.close();
 
-  resultInfo && writeToDB(resultInfo);
+  resultInfo && writeToDB(resultInfo,destination);
 }
 
-async function writeToDB(entry) {
+async function writeToDB(resultInfo,destination) {
   try {
     const date = new Date();
     const queryParams = [
       process.env.FROM,
-      process.env.TO,
-      entry[0],
-      entry[1],
-      entry[2] + "\n" + entry[3],
+      destination,
+      resultInfo[0],
+      resultInfo[1],
+      resultInfo[2] + "\n" + resultInfo[3],
     ];
     const insertQueryString = `INSERT INTO distance_check(departure,destination,duration,distance,comment) VALUES ('${queryParams[0]}','${queryParams[1]}','${queryParams[2]}','${queryParams[3]}','${queryParams[4]}')`;
 
