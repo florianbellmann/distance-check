@@ -31,13 +31,13 @@ async function checkDistance(destination) {
   await page.goto("https://maps.google.com");
 
   console.log(`Getting directions for ${process.env.FROM} to ${destination}`);
-  await page.click("button[aria-label='Directions']");
+  await page.click("button[aria-label='Routenplaner']");
   await page.fill("#directions-searchbox-0 input", process.env.FROM);
   await page.fill("#directions-searchbox-1 input", destination);
   await page.keyboard.press("Enter");
 
   await page.waitForLoadState("networkidle");
-  await delay(5000);
+  await delay(15000);
   let resultInfo = await (
     await page.$("#section-directions-trip-0")
   ).innerText();
